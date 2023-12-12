@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,18 +61,19 @@ public class UserController {
     }
 
     @PostMapping("/admin")
-    @PostAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String getAdmin() {
         return "Ingresó como administrador";
     }
     
     @PostMapping("/user")
-    @PostAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public String getUser() {
         return "Ingresó como usuario";
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Integer> deleteUser(@PathVariable int id) throws InvalidException {
         try {
             this.userRepository.deleteById(id);

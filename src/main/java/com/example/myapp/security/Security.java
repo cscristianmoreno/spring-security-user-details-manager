@@ -24,9 +24,9 @@ public class Security {
             .authorizeHttpRequests((req) -> {
                 req.requestMatchers("/users/admin");
                 req.requestMatchers("/users/user");
+                req.requestMatchers("/users/delete/*");
                 req.requestMatchers("/users/save").permitAll();
                 req.requestMatchers("/users/all").permitAll();
-                req.requestMatchers("/users/delete/*").permitAll();
                 req.anyRequest().authenticated();
             })
             .csrf((csrf) -> {
